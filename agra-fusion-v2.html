@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGRA FUSION — Nawozy Płynne Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --green-950: #021105;
+  --green-900: #052e0f;
+  --green-800: #0a2e14;
+  --green-700: #14532d;
+  --green-600: #166534;
+  --green-500: #16a34a;
+  --green-400: #22c55e;
+  --green-300: #4ade80;
+  --green-200: #86efac;
+  --green-100: #dcfce7;
+  --green-50:  #f0fdf4;
+  --amber-600: #d97706;
+  --amber-500: #f59e0b;
+  --amber-400: #fbbf24;
+  --amber-100: #fef3c7;
+  --white: #ffffff;
+  --gray-50:  #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-400: #94a3b8;
+  --gray-600: #475569;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
+
+  --font-display: 'Syne', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+
+  --radius-sm:  6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl:40px;
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.08);
+  --shadow-md:  0 4px 16px rgba(0,0,0,.16);
+  --shadow-lg:  0 12px 40px rgba(0,0,0,.22);
+  --shadow-glow:0 0 40px rgba(34,197,94,.18);
+
+  --transition: 220ms cubic-bezier(.4,0,.2,1);
+  --transition-slow: 400ms cubic-bezier(.4,0,.2,1);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; font-size:16px; }
+body {
+  font-family: var(--font-body);
+  background: var(--green-950);
+  color: var(--white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration:none; color:inherit; }
+button { font-family:inherit; cursor:pointer; border:none; background:none; }
+img, svg { display:block; max-width:100%; }
+ul { list-style:none; }
+
+/* ============================================================
+   PAGE SYSTEM
+   ============================================================ */
+.page { display:none; }
+.page.active { display:block; }
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.nav {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  height: 68px;
+  display: flex; align-items: center;
+  padding: 0 max(5%, 24px);
+  background: rgba(2,17,5,.72);
+  backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(34,197,94,.1);
+  transition: background var(--transition);
+}
+.nav.scrolled {
+  background: rgba(2,17,5,.92);
+  border-bottom-color: rgba(34,197,94,.18);
+}
+.nav-inner {
+  width:100%; max-width:1400px; margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between;
+}
+
+.logo {
+  display:flex; align-items:center; gap:10px;
+  cursor:pointer; user-select:none;
+}
+.logo-mark {
+  width:38px; height:38px;
+  background: linear-gradient(135deg, var(--green-400), var(--green-600));
+  border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.logo-mark svg { width:20px; height:20px; }
+.logo-wordmark { line-height:1; }
+.logo-top {
+  font-family:var(--font-display);
+  font-size:.95rem; font-weight:800;
+  letter-spacing:.18em; color:var(--green-300);
+}
+.logo-bot {
+  font-family:var(--font-display);
+  font-size:.6rem; font-weight:400;
+  letter-spacing:.3em; color:rgba(255,255,255,.45);
+  text-transform:uppercase;
+}
+
+.nav-links {
+  display:flex; gap:2px; align-items:center;
+}
+.nav-links button {
+  padding:.55rem 1.1rem;
+  font-family:var(--font-body);
+  font-size:.9rem; font-weight:500;
+  color:rgba(255,255,255,.65);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+}
+.nav-links button:hover { color:var(--white); background:rgba(255,255,255,.06); }
+.nav-links button.active { color:var(--green-300); }
+.nav-cta button {
+  padding:.55rem 1.4rem;
+  background:var(--green-500);
+  color:var(--white);
+  font-weight:600;
+  border-radius:var(--radius-2xl);
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.nav-cta button:hover {
+  background:var(--green-400);
+  transform:translateY(-1px);
+  box-shadow:var(--shadow-glow);
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#page-home {
+  background: var(--green-950);
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-canvas {
+  position:absolute; inset:0; z-index:0;
+  overflow:hidden;
+}
+/* Mesh gradient orbs */
+.orb {
+  position:absolute;
+  border-radius:50%;
+  filter:blur(80px);
+  mix-blend-mode:screen;
+  opacity:.45;
+  animation: floatOrb 18s ease-in-out infinite;
+}
+.orb1 {
+  width:700px; height:700px;
+  background: radial-gradient(circle, rgba(22,163,74,.6) 0%, transparent 65%);
+  top:-200px; left:-150px;
+  animation-delay:0s;
+}
+.orb2 {
+  width:500px; height:500px;
+  background: radial-gradient(circle, rgba(217,119,6,.5) 0%, transparent 65%);
+  top:10%; right:-100px;
+  animation-delay:-7s;
+}
+.orb3 {
+  width:600px; height:600px;
+  background: radial-gradient(circle, rgba(5,46,15,.9) 0%, transparent 65%);
+  bottom:-200px; left:30%;
+  animation-delay:-12s;
+}
+@keyframes floatOrb {
+  0%,100% { transform:translate(0,0) scale(1); }
+  33%      { transform:translate(30px,-20px) scale(1.05); }
+  66%      { transform:translate(-20px,25px) scale(.97); }
+}
+
+/* Noise grid overlay */
+.hero-canvas::after {
+  content:'';
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(74,222,128,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,222,128,.03) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+}
+
+/* Animated particles */
+.particles { position:absolute; inset:0; z-index:1; pointer-events:none; }
+.drop {
+  position:absolute;
+  width:3px; height:3px;
+  border-radius:50%;
+  background:var(--green-400);
+  opacity:0;
+  animation:dropRise 7s ease-in-out infinite;
+}
+@keyframes dropRise {
+  0%   { opacity:0; transform:translateY(100vh) scale(.5); }
+  20%  { opacity:.7; }
+  80%  { opacity:.3; }
+  100% { opacity:0; transform:translateY(-20vh) scale(1.2); }
+}
+
+.hero-wrap {
+  position:relative; z-index:10;
+  min-height:100vh;
+  display:flex; align-items:center;
+  padding: 120px max(5%,24px) 80px;
+  max-width:1400px; margin:0 auto;
+  gap:4rem;
+}
+
+.hero-left { flex:1; max-width:640px; }
+
+.hero-chip {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:.4rem 1rem;
+  background:rgba(34,197,94,.1);
+  border:1px solid rgba(34,197,94,.25);
+  border-radius:var(--radius-2xl);
+  font-size:.8rem; font-weight:600;
+  color:var(--green-300);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin-bottom:1.75rem;
+}
+.hero-chip-dot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--green-400);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100%{ opacity:1; transform:scale(1); }
+  50%    { opacity:.5; transform:scale(1.3); }
+}
+
+.hero-h1 {
+  font-family:var(--font-display);
+  font-size:clamp(2.8rem, 6vw, 5.2rem);
+  font-weight:800;
+  line-height:1.04;
+  letter-spacing:-.02em;
+  margin-bottom:1.5rem;
+}
+.hero-h1 em {
+  font-style:normal;
+  color:var(--green-400);
+}
+.hero-h1 mark {
+  background:none;
+  -webkit-text-stroke:1.5px var(--amber-500);
+  color:transparent;
+}
+
+.hero-lead {
+  font-size:1.15rem; line-height:1.72;
+  color:rgba(255,255,255,.6);
+  max-width:520px;
+  margin-bottom:2.5rem;
+}
+
+.hero-actions {
+  display:flex; gap:1rem; flex-wrap:wrap;
+  margin-bottom:3.5rem;
+}
+.btn-primary {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:.875rem 2rem;
+  background:var(--green-500);
+  color:var(--white);
+  font-family:var(--font-body);
+  font-size:.95rem; font-weight:600;
+  border-radius:var(--radius-2xl);
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.btn-primary:hover {
+  background:var(--green-400);
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(34,197,94,.3);
+}
+.btn-ghost {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:.875rem 2rem;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.85);
+  font-family:var(--font-body);
+  font-size:.95rem; font-weight:500;
+  border-radius:var(--radius-2xl);
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+}
+.btn-ghost:hover {
+  background:rgba(255,255,255,.1);
+  border-color:rgba(255,255,255,.3);
+  transform:translateY(-2px);
+}
+
+.hero-stats {
+  display:flex; gap:2.5rem; flex-wrap:wrap;
+  padding-top:2rem;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.stat { }
+.stat-num {
+  font-family:var(--font-display);
+  font-size:2rem; font-weight:800;
+  color:var(--green-300);
+  line-height:1;
+}
+.stat-lbl {
+  font-size:.82rem; font-weight:500;
+  color:rgba(255,255,255,.45);
+  margin-top:.3rem;
+  text-transform:uppercase; letter-spacing:.06em;
+}
+
+/* Hero right — floating product visual */
+.hero-right {
+  flex:0 0 420px;
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+}
+.product-showcase {
+  width:380px; height:480px;
+  position:relative;
+}
+.showcase-card {
+  position:absolute;
+  background: rgba(10,46,20,.85);
+  border:1px solid rgba(34,197,94,.2);
+  border-radius:var(--radius-xl);
+  backdrop-filter:blur(20px);
+  padding:1.5rem;
+  box-shadow: 0 24px 64px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);
+  transition: transform var(--transition-slow);
+}
+.showcase-main {
+  width:280px; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  z-index:3;
+}
+.showcase-card:hover.showcase-main { transform:translate(-50%,-52%) scale(1.02); }
+.showcase-float-a {
+  width:180px; top:5%; right:-10px; z-index:2;
+  animation:floatCard 5s ease-in-out infinite;
+}
+.showcase-float-b {
+  width:180px; bottom:5%; left:-10px; z-index:2;
+  animation:floatCard 5s ease-in-out infinite reverse;
+  animation-delay:-2.5s;
+}
+@keyframes floatCard {
+  0%,100%{ transform:translateY(0); }
+  50%    { transform:translateY(-10px); }
+}
+.sc-icon {
+  width:48px; height:48px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:1rem;
+}
+.sc-icon.green { background:rgba(34,197,94,.15); }
+.sc-icon.amber { background:rgba(217,119,6,.15); }
+.sc-icon svg { width:24px; height:24px; }
+.sc-label {
+  font-size:.72rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:.1em;
+  color:var(--green-400); margin-bottom:.4rem;
+}
+.sc-title {
+  font-family:var(--font-display);
+  font-size:1.05rem; font-weight:700;
+  margin-bottom:.5rem;
+}
+.sc-desc { font-size:.82rem; color:rgba(255,255,255,.55); line-height:1.5; }
+.sc-bar-wrap { margin-top:1rem; }
+.sc-bar-lbl { display:flex; justify-content:space-between; font-size:.75rem; color:rgba(255,255,255,.5); margin-bottom:.4rem; }
+.sc-bar { height:4px; background:rgba(255,255,255,.1); border-radius:2px; overflow:hidden; }
+.sc-bar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg, var(--green-500), var(--green-300)); }
+
+/* ============================================================
+   SECTION COMMONS
+   ============================================================ */
+.section-wrap { max-width:1400px; margin:0 auto; padding:0 max(5%,24px); }
+.section-eyebrow {
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:.78rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.12em;
+  color:var(--green-400);
+  margin-bottom:1rem;
+}
+.section-eyebrow::before {
+  content:'';
+  width:20px; height:2px;
+  background:var(--green-400);
+  border-radius:1px;
+}
+.section-h2 {
+  font-family:var(--font-display);
+  font-size:clamp(2rem, 4vw, 3rem);
+  font-weight:800;
+  line-height:1.1;
+  letter-spacing:-.02em;
+}
+.section-lead {
+  font-size:1.05rem; line-height:1.7;
+  color:rgba(255,255,255,.55);
+  max-width:540px;
+  margin-top:.75rem;
+}
+
+/* ============================================================
+   FEATURES STRIP (dark bg)
+   ============================================================ */
+.features-strip {
+  padding:100px 0;
+  background:var(--green-900);
+  border-top:1px solid rgba(34,197,94,.08);
+  border-bottom:1px solid rgba(34,197,94,.08);
+}
+.features-header { margin-bottom:4rem; }
+.features-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:1.5rem;
+}
+.feature-card {
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--radius-lg);
+  padding:2rem;
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+  cursor:default;
+}
+.feature-card:hover {
+  background:rgba(34,197,94,.06);
+  border-color:rgba(34,197,94,.2);
+  transform:translateY(-4px);
+}
+.feat-icon {
+  width:52px; height:52px; border-radius:14px;
+  background:rgba(34,197,94,.12);
+  border:1px solid rgba(34,197,94,.2);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:1.25rem;
+}
+.feat-icon svg { width:24px; height:24px; stroke:var(--green-400); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.feat-title {
+  font-family:var(--font-display);
+  font-size:1.05rem; font-weight:700;
+  margin-bottom:.5rem;
+}
+.feat-desc { font-size:.9rem; line-height:1.65; color:rgba(255,255,255,.5); }
+
+/* ============================================================
+   SHOP PAGE
+   ============================================================ */
+#page-sklep {
+  background:var(--green-950);
+  padding-top:68px;
+}
+.shop-hero {
+  padding:5rem max(5%,24px) 3rem;
+  background:linear-gradient(180deg, var(--green-900) 0%, var(--green-950) 100%);
+  border-bottom:1px solid rgba(34,197,94,.1);
+}
+.shop-hero-inner { max-width:1400px; margin:0 auto; }
+.shop-hero h2 {
+  font-family:var(--font-display);
+  font-size:clamp(2rem,5vw,3rem); font-weight:800;
+  letter-spacing:-.02em; margin-bottom:.5rem;
+}
+.shop-hero p { color:rgba(255,255,255,.5); font-size:1.05rem; }
+
+.filters {
+  padding:2rem max(5%,24px) 0;
+  max-width:1400px; margin:0 auto;
+  display:flex; gap:.6rem; flex-wrap:wrap;
+}
+.filter-btn {
+  padding:.5rem 1.1rem;
+  border-radius:var(--radius-2xl);
+  border:1px solid rgba(255,255,255,.12);
+  background:transparent;
+  color:rgba(255,255,255,.6);
+  font-size:.85rem; font-weight:500;
+  font-family:var(--font-body);
+  cursor:pointer;
+  transition: all var(--transition);
+}
+.filter-btn:hover { border-color:rgba(34,197,94,.4); color:var(--green-300); }
+.filter-btn.active { background:var(--green-600); border-color:var(--green-500); color:var(--white); }
+
+.products-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+  gap:1.5rem;
+  padding:2rem max(5%,24px) 5rem;
+  max-width:1400px; margin:0 auto;
+}
+
+.product-card {
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--radius-xl);
+  overflow:hidden;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  position:relative;
+}
+.product-card:hover {
+  transform:translateY(-6px);
+  border-color:rgba(34,197,94,.25);
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
+
+.product-vis {
+  height:200px;
+  display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden;
+}
+.product-vis::before {
+  content:'';
+  position:absolute; inset:0;
+  background:radial-gradient(ellipse at 50% 120%, rgba(34,197,94,.15) 0%, transparent 65%);
+}
+.product-vis svg { width:130px; height:130px; position:relative; z-index:1; }
+
+.p-badge {
+  position:absolute; top:12px; left:12px; z-index:2;
+  padding:.28rem .7rem;
+  font-size:.7rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.07em;
+  border-radius:var(--radius-2xl);
+}
+.badge-hit  { background:var(--amber-600); color:#fff; }
+.badge-new  { background:rgba(14,165,233,.85); color:#fff; }
+.badge-eco  { background:rgba(22,163,74,.85); color:#fff; }
+.badge-pro  { background:rgba(139,92,246,.85); color:#fff; }
+
+.product-body { padding:1.5rem; }
+.p-cat {
+  font-size:.72rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.1em;
+  color:var(--green-400); margin-bottom:.45rem;
+}
+.product-body h3 {
+  font-family:var(--font-display);
+  font-size:1.1rem; font-weight:700;
+  margin-bottom:.5rem; line-height:1.2;
+}
+.product-body p { font-size:.87rem; line-height:1.6; color:rgba(255,255,255,.5); margin-bottom:1rem; }
+
+.p-specs { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.25rem; }
+.p-spec {
+  font-size:.72rem; font-weight:600;
+  padding:.25rem .65rem;
+  background:rgba(34,197,94,.1);
+  border:1px solid rgba(34,197,94,.2);
+  border-radius:var(--radius-2xl);
+  color:var(--green-300);
+}
+
+.p-footer { display:flex; justify-content:space-between; align-items:center; }
+.p-price {
+  font-family:var(--font-display);
+  font-size:1.5rem; font-weight:800;
+  color:var(--white);
+}
+.p-price small { font-family:var(--font-body); font-size:.82rem; font-weight:400; color:rgba(255,255,255,.35); margin-left:.15rem; }
+
+.btn-cart {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:.6rem 1.2rem;
+  background:var(--green-500);
+  color:var(--white);
+  font-size:.85rem; font-weight:600;
+  border-radius:var(--radius-2xl);
+  transition: background var(--transition), transform var(--transition);
+}
+.btn-cart:hover { background:var(--green-400); transform:scale(1.04); }
+.btn-cart svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+
+/* ============================================================
+   USŁUGI PAGE
+   ============================================================ */
+#page-uslugi {
+  background:var(--green-950);
+  padding-top:68px;
+}
+.uslugi-hero {
+  padding:5rem max(5%,24px) 3rem;
+  background:linear-gradient(160deg, var(--green-900), var(--green-950));
+  border-bottom:1px solid rgba(34,197,94,.1);
+  text-align:center;
+}
+.uslugi-hero-inner { max-width:680px; margin:0 auto; }
+.uslugi-hero h2 {
+  font-family:var(--font-display);
+  font-size:clamp(2rem,5vw,3rem); font-weight:800;
+  letter-spacing:-.02em; margin-bottom:.75rem;
+}
+.uslugi-hero p { color:rgba(255,255,255,.5); font-size:1.05rem; }
+
+.uslugi-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(340px, 1fr));
+  gap:1.5rem;
+  padding:3rem max(5%,24px) 5rem;
+  max-width:1400px; margin:0 auto;
+}
+.usluga-card {
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--radius-xl);
+  padding:2.25rem;
+  position:relative;
+  overflow:hidden;
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+}
+.usluga-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, var(--green-500), var(--amber-500));
+  transform:scaleX(0); transform-origin:left;
+  transition:transform var(--transition-slow);
+}
+.usluga-card:hover { background:rgba(34,197,94,.05); border-color:rgba(34,197,94,.2); transform:translateY(-4px); }
+.usluga-card:hover::before { transform:scaleX(1); }
+
+.u-num {
+  font-family:var(--font-display);
+  font-size:3.5rem; font-weight:800;
+  color:rgba(34,197,94,.08);
+  position:absolute; top:1rem; right:1.5rem;
+  line-height:1; pointer-events:none;
+}
+.u-icon {
+  width:56px; height:56px; border-radius:14px;
+  background:rgba(34,197,94,.1);
+  border:1px solid rgba(34,197,94,.2);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:1.5rem;
+}
+.u-icon svg { width:26px; height:26px; stroke:var(--green-400); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.usluga-card h3 {
+  font-family:var(--font-display);
+  font-size:1.25rem; font-weight:700;
+  margin-bottom:.6rem;
+}
+.usluga-card > p { font-size:.9rem; color:rgba(255,255,255,.5); line-height:1.65; margin-bottom:1.25rem; }
+.u-list { display:flex; flex-direction:column; gap:.5rem; }
+.u-list li {
+  font-size:.85rem; color:rgba(255,255,255,.65);
+  display:flex; align-items:flex-start; gap:.6rem;
+  padding-bottom:.5rem;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.u-list li:last-child { border-bottom:none; padding-bottom:0; }
+.u-list li::before {
+  content:'';
+  width:14px; height:14px; border-radius:50%;
+  background:rgba(34,197,94,.15);
+  border:1px solid rgba(34,197,94,.4);
+  flex-shrink:0; margin-top:2px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 5l2 2 4-4' stroke='%234ade80' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:center;
+}
+
+/* ============================================================
+   O NAS PAGE
+   ============================================================ */
+#page-onas {
+  background:var(--green-950);
+  padding-top:68px;
+}
+.onas-hero {
+  padding:5rem max(5%,24px);
+  background:linear-gradient(135deg, var(--green-900), var(--green-950));
+  border-bottom:1px solid rgba(34,197,94,.1);
+}
+.onas-hero-grid {
+  max-width:1400px; margin:0 auto;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:5rem; align-items:center;
+}
+.onas-hero h2 {
+  font-family:var(--font-display);
+  font-size:clamp(2rem,5vw,3.2rem); font-weight:800;
+  letter-spacing:-.02em; line-height:1.1; margin-bottom:1.25rem;
+}
+.onas-hero p { color:rgba(255,255,255,.55); line-height:1.75; font-size:1rem; margin-bottom:1.25rem; }
+.onas-visual { display:flex; justify-content:center; }
+
+.timeline-visual {
+  width:100%; max-width:380px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--radius-xl);
+  padding:2rem;
+}
+.tl-header {
+  font-size:.75rem; font-weight:700;
+  color:var(--green-400); text-transform:uppercase; letter-spacing:.1em;
+  margin-bottom:1.5rem;
+}
+.tl-item { display:flex; gap:1rem; margin-bottom:1.25rem; }
+.tl-dot-wrap { display:flex; flex-direction:column; align-items:center; gap:0; }
+.tl-dot {
+  width:10px; height:10px; border-radius:50%;
+  background:var(--green-500); border:2px solid var(--green-300);
+  flex-shrink:0; margin-top:4px;
+}
+.tl-line { width:2px; flex:1; background:rgba(34,197,94,.15); margin-top:4px; }
+.tl-item:last-child .tl-line { display:none; }
+.tl-year { font-size:.75rem; font-weight:700; color:var(--green-400); flex-shrink:0; margin-top:3px; }
+.tl-text { font-size:.85rem; color:rgba(255,255,255,.65); line-height:1.5; }
+
+.values-section {
+  padding:5rem max(5%,24px);
+  max-width:1400px; margin:0 auto;
+}
+.values-section h3 {
+  font-family:var(--font-display);
+  font-size:2rem; font-weight:800;
+  text-align:center; margin-bottom:3rem;
+}
+.values-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.5rem; }
+.value-card {
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--radius-lg);
+  padding:2rem;
+  transition:background var(--transition), border-color var(--transition), transform var(--transition);
+}
+.value-card:hover { background:rgba(34,197,94,.05); border-color:rgba(34,197,94,.15); transform:translateY(-4px); }
+.v-icon { font-size:2rem; margin-bottom:1rem; }
+.value-card h4 { font-family:var(--font-display); font-size:1.05rem; font-weight:700; margin-bottom:.6rem; }
+.value-card p { font-size:.87rem; color:rgba(255,255,255,.5); line-height:1.65; }
+
+/* ============================================================
+   KONTAKT PAGE
+   ============================================================ */
+#page-kontakt {
+  background:var(--green-950);
+  padding-top:68px;
+}
+.kontakt-hero {
+  padding:5rem max(5%,24px) 3rem;
+  background:linear-gradient(160deg, var(--green-900), var(--green-950));
+  border-bottom:1px solid rgba(34,197,94,.1);
+  text-align:center;
+}
+.kontakt-hero h2 {
+  font-family:var(--font-display);
+  font-size:clamp(2rem,5vw,3rem); font-weight:800;
+  letter-spacing:-.02em; margin-bottom:.75rem;
+}
+.kontakt-hero p { color:rgba(255,255,255,.5); font-size:1.05rem; }
+
+.kontakt-body {
+  display:grid; grid-template-columns:1fr 1.4fr;
+  gap:3rem;
+  padding:3rem max(5%,24px) 5rem;
+  max-width:1200px; margin:0 auto;
+}
+
+.k-info h3 {
+  font-family:var(--font-display);
+  font-size:1.3rem; font-weight:700;
+  margin-bottom:2rem; color:var(--white);
+}
+.k-item {
+  display:flex; align-items:flex-start; gap:1rem;
+  padding:1.25rem 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.k-item:last-child { border-bottom:none; }
+.k-icon-box {
+  width:44px; height:44px; border-radius:12px;
+  background:rgba(34,197,94,.1);
+  border:1px solid rgba(34,197,94,.2);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.k-icon-box svg { width:20px; height:20px; stroke:var(--green-400); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.k-item strong { display:block; font-weight:600; font-size:.92rem; margin-bottom:.2rem; }
+.k-item span { font-size:.87rem; color:rgba(255,255,255,.5); line-height:1.6; }
+
+.k-form {
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--radius-xl);
+  padding:2.5rem;
+}
+.k-form h3 {
+  font-family:var(--font-display);
+  font-size:1.3rem; font-weight:700;
+  margin-bottom:2rem;
+}
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.fg {
+  display:flex; flex-direction:column; gap:.5rem;
+  margin-bottom:1rem;
+}
+.fg label { font-size:.82rem; font-weight:600; color:rgba(255,255,255,.7); }
+.fg input, .fg select, .fg textarea {
+  padding:.75rem 1rem;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--radius-md);
+  font-size:.92rem; font-family:var(--font-body);
+  color:var(--white);
+  transition:border-color var(--transition), background var(--transition);
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus {
+  outline:none;
+  border-color:rgba(34,197,94,.5);
+  background:rgba(34,197,94,.06);
+}
+.fg input::placeholder, .fg textarea::placeholder { color:rgba(255,255,255,.25); }
+.fg select { color:rgba(255,255,255,.7); }
+.fg select option { background:var(--green-900); color:var(--white); }
+.fg textarea { min-height:110px; resize:vertical; }
+.btn-submit {
+  width:100%; padding:1rem;
+  background:linear-gradient(135deg, var(--green-500), var(--green-600));
+  color:var(--white);
+  font-family:var(--font-body); font-size:.98rem; font-weight:700;
+  border-radius:var(--radius-2xl);
+  transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition);
+  margin-top:.5rem;
+}
+.btn-submit:hover { opacity:.9; transform:translateY(-2px); box-shadow:0 12px 30px rgba(34,197,94,.3); }
+.btn-submit:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+
+/* ============================================================
+   FLOATING CTA STRIP (on home page)
+   ============================================================ */
+.cta-strip {
+  padding:80px 0;
+  background:linear-gradient(135deg, var(--green-700), var(--green-800));
+  overflow:hidden; position:relative;
+}
+.cta-strip::before {
+  content:'';
+  position:absolute; top:-50%; left:-50%;
+  width:200%; height:200%;
+  background:radial-gradient(ellipse at center, rgba(255,255,255,.06) 0%, transparent 55%);
+  animation:rotate 30s linear infinite;
+}
+@keyframes rotate { 100%{ transform:rotate(360deg); } }
+.cta-strip-inner {
+  position:relative; z-index:1;
+  max-width:900px; margin:0 auto;
+  padding:0 max(5%,24px);
+  text-align:center;
+}
+.cta-strip h2 {
+  font-family:var(--font-display);
+  font-size:clamp(1.8rem,4vw,2.8rem); font-weight:800;
+  letter-spacing:-.02em; margin-bottom:.75rem;
+}
+.cta-strip p { color:rgba(255,255,255,.7); font-size:1.05rem; margin-bottom:2rem; }
+.cta-btn {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:1rem 2.5rem;
+  background:var(--white);
+  color:var(--green-800);
+  font-family:var(--font-body); font-size:1rem; font-weight:700;
+  border-radius:var(--radius-2xl);
+  transition:transform var(--transition), box-shadow var(--transition);
+}
+.cta-btn:hover { transform:translateY(-2px); box-shadow:0 12px 30px rgba(0,0,0,.3); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background:var(--green-950);
+  border-top:1px solid rgba(255,255,255,.07);
+  padding:4rem max(5%,24px) 2.5rem;
+}
+.footer-grid {
+  display:grid; grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:3rem;
+  max-width:1400px; margin:0 auto;
+  margin-bottom:3rem;
+}
+.footer-brand p { font-size:.87rem; color:rgba(255,255,255,.4); line-height:1.7; margin-top:1rem; max-width:280px; }
+.footer-col h4 { font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:rgba(255,255,255,.35); margin-bottom:1.2rem; }
+.footer-col ul { display:flex; flex-direction:column; gap:.7rem; }
+.footer-col a { font-size:.9rem; color:rgba(255,255,255,.5); transition:color var(--transition); }
+.footer-col a:hover { color:var(--green-300); }
+.footer-bottom {
+  max-width:1400px; margin:0 auto;
+  padding-top:2rem; border-top:1px solid rgba(255,255,255,.06);
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:.82rem; color:rgba(255,255,255,.3);
+  flex-wrap:wrap; gap:.5rem;
+}
+
+/* ============================================================
+   REVEAL ANIMATION
+   ============================================================ */
+.reveal {
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.reveal.in { opacity:1; transform:none; }
+
+/* ============================================================
+   @media RESPONSIVE
+   ============================================================ */
+@media(max-width:1024px){
+  .hero-right { display:none; }
+  .onas-hero-grid { grid-template-columns:1fr; }
+  .footer-grid { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:768px){
+  .nav-links { display:none; }
+  .kontakt-body { grid-template-columns:1fr; }
+  .form-row { grid-template-columns:1fr; }
+  .uslugi-grid { grid-template-columns:1fr; }
+  .footer-grid { grid-template-columns:1fr; }
+  .footer-bottom { flex-direction:column; text-align:center; }
+}
+@media(prefers-reduced-motion:reduce){
+  *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<nav class="nav" id="navbar">
+  <div class="nav-inner">
+    <div class="logo" onclick="showPage('home')">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2C6.5 2 4 6 4 10c0 5 4 8 8 10 4-2 8-5 8-10 0-4-2.5-8-8-8z"/>
+          <path d="M12 6v8M9 10l3 4 3-4"/>
+        </svg>
+      </div>
+      <div class="logo-wordmark">
+        <span class="logo-top">AGRA</span>
+        <span class="logo-bot">Fusion</span>
+      </div>
+    </div>
+
+    <ul class="nav-links">
+      <li><button onclick="showPage('home')"    id="nav-home"   class="active">Start</button></li>
+      <li><button onclick="showPage('sklep')"   id="nav-sklep">Sklep</button></li>
+      <li><button onclick="showPage('uslugi')"  id="nav-uslugi">Usługi</button></li>
+      <li><button onclick="showPage('onas')"    id="nav-onas">O nas</button></li>
+      <li class="nav-cta"><button onclick="showPage('kontakt')" id="nav-kontakt">Kontakt</button></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============================================================
+     PAGE: HOME
+     ============================================================ -->
+<div id="page-home" class="page active">
+
+  <!-- Aurora mesh background -->
+  <div class="hero-canvas">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="hero-wrap">
+    <div class="hero-left">
+      <div class="hero-chip">
+        <span class="hero-chip-dot"></span>
+        Certyfikowane nawozy płynne od 2009
+      </div>
+
+      <h1 class="hero-h1">
+        Nawozy, które<br>
+        <em>naprawdę</em><br>
+        <mark>działają</mark>
+      </h1>
+
+      <p class="hero-lead">
+        Profesjonalne nawozy płynne dla zbóż, warzyw i sadownictwa.
+        Sprawdzone receptury opracowane przez agrochemików,
+        polecane przez ponad 2400 gospodarstw w całej Polsce.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="showPage('sklep')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Przeglądaj sklep
+        </button>
+        <button class="btn-ghost" onclick="showPage('kontakt')">
+          Bezpłatna konsultacja
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num" data-target="15">0</div>
+          <div class="stat-lbl">Lat doświadczenia</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-target="2400" data-suffix="+">0</div>
+          <div class="stat-lbl">Klientów</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-target="35" data-suffix="%">0</div>
+          <div class="stat-lbl">Wzrost plonów</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">24/7</div>
+          <div class="stat-lbl">Wsparcie</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="product-showcase">
+        <!-- Floating card A -->
+        <div class="showcase-card showcase-float-a">
+          <div class="sc-label">Zboża</div>
+          <div class="sc-title">Grain Max N</div>
+          <div class="sc-desc">N 25% · SO₃ 14%</div>
+          <div class="sc-bar-wrap">
+            <div class="sc-bar-lbl"><span>Plenność</span><span>+28%</span></div>
+            <div class="sc-bar"><div class="sc-bar-fill" style="width:85%"></div></div>
+          </div>
+        </div>
+
+        <!-- Main card -->
+        <div class="showcase-card showcase-main">
+          <div class="sc-icon green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C7 2 4 6.5 4 10.5c0 5.5 4.5 9 8 11 3.5-2 8-5.5 8-11C20 6.5 17 2 12 2z"/>
+              <path d="M12 6v6M9 9l3 4 3-4"/>
+            </svg>
+          </div>
+          <div class="sc-label">Bestseller sezonu</div>
+          <div class="sc-title">AGRA Nitro Plus</div>
+          <div class="sc-desc">Skoncentrowany nawóz azotowo-siarkowy. Maksymalna przyswajalność, szybki efekt.</div>
+          <div class="sc-bar-wrap">
+            <div class="sc-bar-lbl"><span>Wzrost plonów</span><span>+35%</span></div>
+            <div class="sc-bar"><div class="sc-bar-fill" style="width:90%"></div></div>
+            <div class="sc-bar-lbl" style="margin-top:.6rem"><span>Zadowolenie</span><span>98%</span></div>
+            <div class="sc-bar"><div class="sc-bar-fill" style="width:98%; background:linear-gradient(90deg,#d97706,#fbbf24)"></div></div>
+          </div>
+        </div>
+
+        <!-- Floating card B -->
+        <div class="showcase-card showcase-float-b">
+          <div class="sc-icon amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </div>
+          <div class="sc-label">Bio Eko</div>
+          <div class="sc-title">Bio Humus</div>
+          <div class="sc-desc">100% organiczny</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features strip -->
+  <section class="features-strip">
+    <div class="section-wrap">
+      <div class="features-header reveal">
+        <div class="section-eyebrow">Dlaczego my</div>
+        <h2 class="section-h2">Technologia w służbie roli</h2>
+        <p class="section-lead">Łączymy 15-letnie doświadczenie agrochemiczne z nowoczesnymi formulacjami.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+          </div>
+          <div class="feat-title">Własne laboratorium</div>
+          <p class="feat-desc">Każda receptura opracowywana i testowana w naszym akredytowanym laboratorium. Gwarantujemy skład deklarowany na etykiecie.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="feat-title">Analiza gleby</div>
+          <p class="feat-desc">Dobieramy program nawożenia na podstawie analizy chemicznej gleby. Każde gospodarstwo traktujemy indywidualnie.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="feat-title">Certyfikaty jakości</div>
+          <p class="feat-desc">Posiadamy certyfikat ISO 9001, dopuszczenie do rolnictwa ekologicznego i pełną dokumentację składu chemicznego.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="feat-title">Dostawa 48h</div>
+          <p class="feat-desc">Realizujemy zamówienia w ciągu 48 godzin w całej Polsce. Opakowania od 5L do 1000L IBC z możliwością odbioru osobistego.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div class="feat-title">Konsulting agro</div>
+          <p class="feat-desc">Nasi agronomowie są dostępni 6 dni w tygodniu. Dobierzemy nawóz, obliczą dawki i odwiedzą Twoje pole w razie potrzeby.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <div class="feat-title">Program rabatowy</div>
+          <p class="feat-desc">Rabaty do 15% przy zamówieniach od 500L, darmowa dostawa od 1000 zł, odroczony termin płatności 30 dni dla stałych klientów.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Strip -->
+  <div class="cta-strip">
+    <div class="cta-strip-inner">
+      <h2>Gotowy na wyższe plony?</h2>
+      <p>Dołącz do ponad 2400 gospodarstw, które już korzystają z nawozów AGRA FUSION.</p>
+      <button class="cta-btn" onclick="showPage('kontakt')">
+        Umów bezpłatną konsultację
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 4 6 4 10c0 5 4 8 8 10 4-2 8-5 8-10 0-4-2.5-8-8-8z"/><path d="M12 6v8M9 10l3 4 3-4"/></svg>
+          </div>
+          <div class="logo-wordmark"><span class="logo-top">AGRA</span><span class="logo-bot">Fusion</span></div>
+        </div>
+        <p>Profesjonalne nawozy płynne dla nowoczesnego rolnictwa. Jakość potwierdzona 15 latami doświadczenia.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Produkty</h4>
+        <ul>
+          <li><a href="#" onclick="showPage('sklep')">Nawozy zbożowe</a></li>
+          <li><a href="#" onclick="showPage('sklep')">Nawozy warzywne</a></li>
+          <li><a href="#" onclick="showPage('sklep')">Nawozy do sadów</a></li>
+          <li><a href="#" onclick="showPage('sklep')">Organiczne Bio</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Firma</h4>
+        <ul>
+          <li><a href="#" onclick="showPage('onas')">O nas</a></li>
+          <li><a href="#" onclick="showPage('uslugi')">Usługi</a></li>
+          <li><a href="#">Kariera</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Wsparcie</h4>
+        <ul>
+          <li><a href="#" onclick="showPage('kontakt')">Kontakt</a></li>
+          <li><a href="#">Dokumentacja</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Regulamin</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 AGRA FUSION Sp. z o.o. · ul. Rolnicza 14, 99-400 Łowicz</span>
+      <span>NIP: 834-000-00-00</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================================================
+     PAGE: SKLEP
+     ============================================================ -->
+<div id="page-sklep" class="page">
+  <div class="shop-hero">
+    <div class="shop-hero-inner">
+      <div class="section-eyebrow">Katalog produktów</div>
+      <h2>Sklep <span style="color:var(--green-400)">AGRA FUSION</span></h2>
+      <p>Profesjonalne nawozy płynne — precyzyjne składy, szybkie efekty</p>
+    </div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterProds('all',this)">Wszystkie</button>
+    <button class="filter-btn" onclick="filterProds('zboza',this)">Zboża</button>
+    <button class="filter-btn" onclick="filterProds('warzywa',this)">Warzywa</button>
+    <button class="filter-btn" onclick="filterProds('sad',this)">Sadownictwo</button>
+    <button class="filter-btn" onclick="filterProds('eko',this)">Organiczne</button>
+  </div>
+
+  <div class="products-grid">
+
+    <!-- 1 -->
+    <div class="product-card" data-cat="zboza">
+      <div class="product-vis" style="background:linear-gradient(135deg,rgba(22,163,74,.08),rgba(5,46,15,.4))">
+        <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4ade80"/><stop offset="100%" stop-color="#166534"/></linearGradient></defs>
+          <rect x="50" y="25" width="30" height="75" rx="8" fill="url(#g1)" opacity=".9"/>
+          <rect x="53" y="22" width="24" height="10" rx="5" fill="#86efac"/>
+          <rect x="45" y="58" width="40" height="6" rx="3" fill="#15803d"/>
+          <rect x="45" y="72" width="40" height="6" rx="3" fill="#15803d"/>
+          <rect x="45" y="86" width="40" height="6" rx="3" fill="#15803d"/>
+          <ellipse cx="65" cy="102" rx="22" ry="7" fill="#052e0f" opacity=".6"/>
+        </svg>
+        <span class="p-badge badge-hit">Bestseller</span>
+      </div>
+      <div class="product-body">
+        <div class="p-cat">Nawóz zbożowy</div>
+        <h3>AGRA Grain Max N</h3>
+        <p>Płynny nawóz azotowo-siarkowy do zbóż. Stosowany w fazie strzelania w źdźbło. Zwiększa plenność i białko ziarna.</p>
+        <div class="p-specs">
+          <span class="p-spec">N 25%</span>
+          <span class="p-spec">SO₃ 14%</span>
+          <span class="p-spec">pH 6.5</span>
+        </div>
+        <div class="p-footer">
+          <div class="p-price">259 zł <small>/ 10L</small></div>
+          <button class="btn-cart" onclick="addCart(this)">
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            Dodaj
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="product-card" data-cat="zboza">
+      <div class="product-vis" style="background:linear-gradient(135deg,rgba(217,119,6,.08),rgba(5,46,15,.4))">
+        <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#b45309"/></linearGradient></defs>
+          <line x1="65" y1="115" x2="65" y2="20" stroke="#92400e" stroke-width="3"/>
+          <ellipse cx="65" cy="30" rx="8" ry="13" fill="url(#g2)" transform="rotate(-18 65 30)"/>
+          <ellipse cx="65" cy="30" rx="8" ry="13" fill="#fef3c7" opacity=".5" transform="rotate(18 65 30)"/>
+          <ellipse cx="65" cy="50" rx="8" ry="12" fill="url(#g2)" transform="rotate(-18 65 50)"/>
+          <ellipse cx="65" cy="50" rx="8" ry="12" fill="#fef3c7" opacity=".5" transform="rotate(18 65 50)"/>
+          <ellipse cx="65" cy="68" rx="8" ry="12" fill="url(#g2)" transform="rotate(-18 65 68)"/>
+          <ellipse cx="65" cy="68" rx="8" ry="12" fill="#fef3c7" opacity=".5" transform="rotate(18 65 68)"/>
+          <ellipse cx="65" cy="84" rx="8" ry="12" fill="url(#g2)" transform="rotate(-18 65 84)"/>
+          <ellipse cx="65" cy="84" rx="8" ry="12" fill="#fef3c7" opacity=".5" transform="rotate(18 65 84)"/>
+        </svg>
+        <span class="p-badge badge-new">Nowość</span>
+      </div>
+      <div class="product-body">
+        <div class="p-cat">Nawóz zbożowy</div>
+        <h3>AGRA Grain PKS Pro</h3>
+        <p>Płynny nawóz fosforowo-potasowy z siarką. Wzmacnia źdźbło, poprawia odporność na wyleganie, podnosi jakość ziarna.</p>
+        <div class="p-specs">
+          <span class="p-spec">P₂O₅ 12%</span>
+          <span class="p-spec">K₂O 18%</span>
+          <span class="p-spec">S 6%</span>
+        </div>
+        <div class="p-footer">
+          <div class="p-price">289 zł <small>/ 10L</small></div>
+          <button class="btn-cart" onclick="addCart(this)">
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            Dodaj
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="product-card" data-cat="warzywa">
+      <div class="product-vis" style="background:linear-gradient(135deg,rgba(239,68,68,.07),rgba(5,46,15,.4))">
+        <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="65" cy="80" r="32" fill="#ef4444" opacity=".85"/>
+          <circle cx="65" cy="80" r="32" fill="radial-gradient(circle,#f87171,#dc2626)" opacity=".4"/>
+          <ellipse cx="55" cy="66" rx="9" ry="5.5" fill="white" opacity=".3" transform="rotate(-30 55 66)"/>
+          <rect x="62" y="44" width="6" height="15" rx="3" fill="#166534"/>
+          <ellipse cx="50" cy="48" rx="11" ry="6" fill="#22c55e" transform="rotate(-30 50 48)"/>
+          <ellipse cx="80" cy="46" rx="11" ry="6" fill="#16a34a" transform="rotate(30 80 46)"/>
+        </svg>
+        <span class="p-badge badge-pro">Pro</span>
+      </div>
+      <div class="product-body">
+        <div class="p-cat">Nawóz warzywny</div>
+        <h3>AGRA Veggie NPK+</h3>
+        <p>Zbalansowany nawóz NPK w formie płynnej dla wszystkich warzyw. Wspomaga owocowanie, intensywność barw i smak plonów.</p>
+        <div class="p-specs">
+          <span class="p-spec">N 8%</span>
+          <span class="p-spec">P₂O₅ 8%</span>
+          <span class="p-spec">K₂O 12%</span>
+        </div>
+        <div class="p-footer">
+          <div class="p-price">149 zł <small>/ 5L</small></div>
+          <button class="btn-cart" onclick="addCart(this)">
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            Dodaj
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="product-card" data-cat="warzywa">
+      <div class="product-vis" style="background:linear-gradient(135deg,rgba(22,163,74,.1),rgba(5,46,15,.4))">
+        <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <line x1="65" y1="30" x2="65" y2="95" stroke="#92400e" stroke-width="3"/>
+          <line x1="65" y1="58" x2="38" y2="82" stroke="#78350f" stroke-width="2"/>
+          <line x1="65" y1="58" x2="92" y2="82" stroke="#78350f" stroke-width="2"/>
+          <line x1="65" y1="74" x2="42" y2="98" stroke="#78350f" stroke-width="2"/>
+          <line x1="65" y1="74" x2="88" y2="98" stroke="#78350f" stroke-width="2"/>
+          <line x1="65" y1="44" x2="47" y2="62" stroke="#a16207" stroke-width="1.5"/>
+          <line x1="65" y1="44" x2="83" y2="62" stroke="#a16207" stroke-width="1.5"/>
+          <line x1="15" y1="52" x2="115" y2="52" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5,4" opacity=".4"/>
+          <ellipse cx="50" cy="30" rx="14" ry="8" fill="#4ade80" opacity=".85" transform="rotate(-20 50 30)"/>
+          <ellipse cx="80" cy="28" rx="14" ry="8" fill="#22c55e" opacity=".85" transform="rotate(20 80 28)"/>
+          <ellipse cx="65" cy="22" rx="10" ry="6" fill="#86efac" opacity=".9"/>
+        </svg>
+        <span class="p-badge badge-new">Nowość</span>
+      </div>
+      <div class="product-body">
+        <div class="p-cat">Stymulator korzeni</div>
+        <h3>AGRA Root Start</h3>
+        <p>Płynny stymulator systemu korzeniowego z kwasami huminowymi. Idealny do sadzonek i po przesadzeniu roślin.</p>
+        <div class="p-specs">
+          <span class="p-spec">Humin 12%</span>
+          <span class="p-spec">Fulwik 6%</span>
+          <span class="p-spec">K₂O 4%</span>
+        </div>
+        <div class="p-footer">
+          <div class="p-price">189 zł <small>/ 5L</small></div>
+          <button class="btn-cart" onclick="addCart(this)">
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            Dodaj
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="product-card" data-cat="sad">
+      <div class="product-vis" style="background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(5,46,15,.4))">
+        <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <rect x="59" y="80" width="12" height="35" rx="4" fill="#92400e"/>
+          <circle cx="65" cy="55" r="35" fill="#166534" opacity=".9"/>
+          <circle cx="48" cy="47" r="18" fill="#22c55e" opacity=".9"/>
+          <circle cx="82" cy="50" r="16" fill="#16a34a" opacity=".9"/>
+          <circle cx="55" cy="58" r="9" fill="#ef4444" opacity=".9"/>
+          <ellipse cx="53" cy="53" rx="3" ry="2" fill="white" opacity=".35" transform="rotate(-30 53 53)"/>
+          <circle cx="76" cy="64" r="8" fill="#dc2626" opacity=".9"/>
+          <circle cx="65" cy="47" r="7" fill="#f97316" opacity=".9"/>
+        </svg>
+      </div>
+      <div class="product-body">
+        <div class="p-cat">Nawóz do sadów</div>
+        <h3>AGRA Orchard Plus</h3>
+        <p>Płynny nawóz do jabłoni, grusz i śliw. Bogaty w wapń, bor i cynk — poprawia wybarwienie i trwałość owoców po zbiorze.</p>
+        <div class="p-specs">
+          <span class="p-spec">Ca 10%</span>
+          <span class="p-spec">B 0.3%</span>
+          <span class="p-spec">Zn 0.5%</span>
+        </div>
+        <div class="p-footer">
+          <div class="p-price">219 zł <small>/ 5L</small></div>
+          <button class="btn-cart" onclick="addCart(this)">
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            Dodaj
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="product-card" data-cat="eko">
+      <div class="product-vis" style="background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(5,46,15,.4))">
+        <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g6" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4ade80"/><stop offset="100%" stop-color="#166534"/></linearGradient></defs>
+          <path d="M65 15 C90 15 110 36 110 68 C110 90 90 108 65 108 C40 108 20 90 20 68 C20 36 40 15 65 15 Z" fill="url(#g6)" opacity=".9"/>
+          <path d="M65 15 C90 15 110 36 110 68 C110 90 90 108 65 108 Z" fill="#14532d" opacity=".35"/>
+          <line x1="65" y1="15" x2="65" y2="108" stroke="#bbf7d0" stroke-width="2.5" opacity=".7"/>
+          <line x1="65" y1="46" x2="37" y2="72" stroke="#bbf7d0" stroke-width="1.5" opacity=".6"/>
+          <line x1="65" y1="46" x2="93" y2="72" stroke="#bbf7d0" stroke-width="1.5" opacity=".6"/>
+          <line x1="65" y1="68" x2="42" y2="90" stroke="#bbf7d0" stroke-width="1.5" opacity=".5"/>
+          <line x1="65" y1="68" x2="88" y2="90" stroke="#bbf7d0" stroke-width="1.5" opacity=".5"/>
+          <circle cx="65" cy="60" r="17" fill="rgba(255,255,255,.88)"/>
+          <text x="65" y="64" font-size="8.5" fill="#166534" font-family="Arial" font-weight="900" text-anchor="middle">ECO</text>
+        </svg>
+        <span class="p-badge badge-eco">Eko</span>
+      </div>
+      <div class="product-body">
+        <div class="p-cat">Nawóz organiczny</div>
+        <h3>AGRA Bio Humus</h3>
+        <p>100% organiczny nawóz płynny z ekstraktu wermikompostu. Dopuszczony do rolnictwa ekologicznego. Regeneruje mikrobiologię gleby.</p>
+        <div class="p-specs">
+          <span class="p-spec">Humin 14%</span>
+          <span class="p-spec">N org. 3%</span>
+          <span class="p-spec">pH 7.0</span>
+        </div>
+        <div class="p-footer">
+          <div class="p-price">219 zł <small>/ 5L</small></div>
+          <button class="btn-cart" onclick="addCart(this)">
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            Dodaj
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE: USŁUGI
+     ============================================================ -->
+<div id="page-uslugi" class="page">
+  <div class="uslugi-hero">
+    <div class="uslugi-hero-inner">
+      <div class="section-eyebrow">Co oferujemy</div>
+      <h2>Kompleksowe <span style="color:var(--green-400)">usługi</span></h2>
+      <p>Od analizy gleby po aplikację nawozów — zajmujemy się wszystkim</p>
+    </div>
+  </div>
+
+  <div class="uslugi-grid">
+    <div class="usluga-card reveal">
+      <span class="u-num">01</span>
+      <div class="u-icon"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div>
+      <h3>Dobór nawożenia</h3>
+      <p>Nasi agronomowie dobiorą optymalny program nawożenia na podstawie analizy gleby i potrzeb konkretnej uprawy.</p>
+      <ul class="u-list">
+        <li>Analiza chemiczna gleby (N, P, K, Mg, pH)</li>
+        <li>Indywidualny program nawożenia</li>
+        <li>Obliczenie dawek i terminów aplikacji</li>
+        <li>Wizyta kontrolna po sezonie</li>
+      </ul>
+    </div>
+    <div class="usluga-card reveal">
+      <span class="u-num">02</span>
+      <div class="u-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 4 6 4 10c0 5 4 8 8 10 4-2 8-5 8-10 0-4-2.5-8-8-8z"/><path d="M12 6v8M9 10l3 4 3-4"/></svg></div>
+      <h3>Konsulting agrotechniczny</h3>
+      <p>Doradztwo w zakresie technologii uprawy, ochrony roślin i optymalizacji kosztów produkcji rolnej.</p>
+      <ul class="u-list">
+        <li>Ocena stanu upraw w terenie</li>
+        <li>Dobór odmian i technologii uprawy</li>
+        <li>Optymalizacja kosztów nawożenia</li>
+        <li>Szkolenia dla pracowników</li>
+      </ul>
+    </div>
+    <div class="usluga-card reveal">
+      <span class="u-num">03</span>
+      <div class="u-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+      <h3>Usługi aplikacyjne</h3>
+      <p>Profesjonalne wykonanie zabiegów nawożenia dolistnego i doglebowego na Twoich polach naszym sprzętem.</p>
+      <ul class="u-list">
+        <li>Oprysk nawozami dolistnymi</li>
+        <li>Fertygacja i nawożenie rzędowe</li>
+        <li>Zasięg: woj. Mazowieckie i Łódź</li>
+        <li>Dokumentacja i raport po zabiegu</li>
+      </ul>
+    </div>
+    <div class="usluga-card reveal">
+      <span class="u-num">04</span>
+      <div class="u-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+      <h3>Analizy laboratoryjne</h3>
+      <p>Pobieramy próby gleby i roślin i wykonujemy pełny panel analiz w akredytowanym laboratorium.</p>
+      <ul class="u-list">
+        <li>Analiza makro- i mikroskładników gleby</li>
+        <li>Analiza tkanek roślinnych</li>
+        <li>Badanie pH i zasobności</li>
+        <li>Wyniki w ciągu 5 dni roboczych</li>
+      </ul>
+    </div>
+    <div class="usluga-card reveal">
+      <span class="u-num">05</span>
+      <div class="u-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+      <h3>Program lojalnościowy</h3>
+      <p>Dla stałych odbiorców oferujemy korzystne warunki handlowe, rabaty wolumenowe i priorytety dostaw.</p>
+      <ul class="u-list">
+        <li>Rabat do 15% przy zamów. od 500L</li>
+        <li>Dostawa gratis od 1000 zł</li>
+        <li>Dedykowany opiekun handlowy</li>
+        <li>Płatność odroczona 30 dni</li>
+      </ul>
+    </div>
+    <div class="usluga-card reveal">
+      <span class="u-num">06</span>
+      <div class="u-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <h3>Logistyka i dostawy</h3>
+      <p>Sprawna logistyka w całej Polsce — dostarczamy nawozy bezpośrednio na pole lub do magazynu.</p>
+      <ul class="u-list">
+        <li>Dostawa w ciągu 48h od zamówienia</li>
+        <li>Opakowania od 5L do 1000L IBC</li>
+        <li>Odbiór osobisty w Łowiczu</li>
+        <li>Śledzenie przesyłki online</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE: O NAS
+     ============================================================ -->
+<div id="page-onas" class="page">
+  <div class="onas-hero">
+    <div class="onas-hero-grid">
+      <div>
+        <div class="section-eyebrow">Nasza historia</div>
+        <h2>Firma z pasji<br>do <span style="color:var(--green-400)">rolnictwa</span></h2>
+        <p>Od 2009 roku tworzymy i sprzedajemy nawozy płynne najwyższej jakości. Zaczynaliśmy jako małe, rodzinne przedsiębiorstwo w Łowiczu. Dziś dostarczamy nawozy do ponad 2400 gospodarstw w całej Polsce.</p>
+        <p>Każdy produkt opracowywany jest we własnym laboratorium i testowany na polach partnerskich zanim trafi do sprzedaży. Wierzymy, że dobry nawóz to taki, który polecasz sąsiadowi.</p>
+        <button class="btn-primary" onclick="showPage('kontakt')">Skontaktuj się z nami</button>
+      </div>
+      <div class="onas-visual">
+        <div class="timeline-visual">
+          <div class="tl-header">Kamienie milowe</div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-year">2009</div>
+            <div class="tl-text">Założenie firmy w Łowiczu. Pierwsze receptury nawozów płynnych dla zbóż.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-year">2013</div>
+            <div class="tl-text">Otwarcie własnego laboratorium analitycznego. Certyfikat ISO 9001.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-year">2017</div>
+            <div class="tl-text">Rozszerzenie oferty o nawozy warzywne i sadownicze. 500 klientów.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-year">2021</div>
+            <div class="tl-text">Certyfikacja produktów organicznych. Dopuszczenie do rolnictwa ekologicznego.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--amber-500);border-color:var(--amber-400)"></div></div>
+            <div class="tl-year" style="color:var(--amber-400)">2025</div>
+            <div class="tl-text">Ponad 2400 aktywnych klientów. Nowe centrum logistyczne.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="values-section">
+    <h3>Nasze wartości</h3>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <div class="v-icon">🔬</div>
+        <h4>Jakość oparta na nauce</h4>
+        <p>Każda receptura weryfikowana przez agrochemików. Żadnych kompromisów w składzie — gwarantujemy deklarowane stężenia.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="v-icon">🤝</div>
+        <h4>Uczciwe partnerstwo</h4>
+        <p>Doradzamy to, co faktycznie potrzebne danej uprawie. Nie sprzedajemy więcej niż potrzebujesz — to buduje zaufanie.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="v-icon">🌍</div>
+        <h4>Zrównoważone rolnictwo</h4>
+        <p>Formulacje minimalizują wymywanie składników i zmniejszają ślad węglowy produkcji. Dbamy o glebę na przyszłość.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="v-icon">📈</div>
+        <h4>Wymierne efekty</h4>
+        <p>Nasi klienci notują średnio 35% wzrost plonów. Mamy na to dane z 15 lat dokumentacji wyników polowych.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE: KONTAKT
+     ============================================================ -->
+<div id="page-kontakt" class="page">
+  <div class="kontakt-hero">
+    <div class="section-eyebrow">Porozmawiajmy</div>
+    <h2>Kontakt <span style="color:var(--green-400)">AGRA FUSION</span></h2>
+    <p>Dobierzemy nawóz do Twoich upraw — odpowiadamy w ciągu 24h</p>
+  </div>
+
+  <div class="kontakt-body">
+    <div class="k-info">
+      <h3>Dane kontaktowe</h3>
+      <div class="k-item">
+        <div class="k-icon-box"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div>
+          <strong>Adres siedziby</strong>
+          <span>ul. Rolnicza 14, 99-400 Łowicz<br>woj. Łódźkie, Polska</span>
+        </div>
+      </div>
+      <div class="k-item">
+        <div class="k-icon-box"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg></div>
+        <div>
+          <strong>Telefon</strong>
+          <span>+48 46 837 00 00<br>Pon–Pt, 8:00–16:00</span>
+        </div>
+      </div>
+      <div class="k-item">
+        <div class="k-icon-box"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div>
+          <strong>E-mail</strong>
+          <span>sprzedaz@agrafusion.pl<br>doradztwo@agrafusion.pl</span>
+        </div>
+      </div>
+      <div class="k-item">
+        <div class="k-icon-box"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div>
+        <div>
+          <strong>Dane rejestrowe</strong>
+          <span>AGRA FUSION Sp. z o.o.<br>NIP: 834-000-00-00<br>REGON: 100000000</span>
+        </div>
+      </div>
+      <div class="k-item">
+        <div class="k-icon-box"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <div>
+          <strong>Magazyn i odbiory</strong>
+          <span>Odbiór osobisty możliwy<br>Pon–Pt 7:00–15:00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="k-form">
+      <h3>Wyślij zapytanie</h3>
+      <div class="form-row">
+        <div class="fg">
+          <label for="fname">Imię i nazwisko *</label>
+          <input id="fname" type="text" placeholder="Jan Kowalski">
+        </div>
+        <div class="fg">
+          <label for="ftel">Telefon *</label>
+          <input id="ftel" type="tel" placeholder="+48 600 000 000">
+        </div>
+      </div>
+      <div class="fg">
+        <label for="femail">E-mail</label>
+        <input id="femail" type="email" placeholder="jan@example.pl">
+      </div>
+      <div class="fg">
+        <label for="ftyp">Rodzaj uprawy</label>
+        <select id="ftyp">
+          <option value="">-- Wybierz --</option>
+          <option>Zboża (pszenica, kukurydza, rzepak)</option>
+          <option>Warzywa gruntowe</option>
+          <option>Warzywa pod osłonami</option>
+          <option>Sad (jabłoń, grusza, śliwa)</option>
+          <option>Owoce miękkie</option>
+          <option>Rośliny strączkowe</option>
+          <option>Inne</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label for="fmsg">Treść zapytania *</label>
+        <textarea id="fmsg" placeholder="Opisz swoje potrzeby, rodzaj uprawy, powierzchnię pól i problem który chcesz rozwiązać..."></textarea>
+      </div>
+      <button class="btn-submit" onclick="submitForm(this)">Wyślij zapytanie</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* ---------- PAGE NAV ---------- */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const nb = document.getElementById('nav-'+id);
+  if(nb) nb.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(runReveal, 80);
+}
+
+/* ---------- NAVBAR SCROLL ---------- */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+}, {passive:true});
+
+/* ---------- REVEAL ON SCROLL ---------- */
+function runReveal() {
+  document.querySelectorAll('.reveal:not(.in)').forEach(el => {
+    if(el.getBoundingClientRect().top < window.innerHeight - 60) el.classList.add('in');
+  });
+}
+window.addEventListener('scroll', runReveal, {passive:true});
+runReveal();
+
+/* ---------- COUNTER ANIMATION ---------- */
+let counted = false;
+function countUp() {
+  if(counted) return; counted = true;
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    let cur = 0, step = target / 60;
+    const tick = () => {
+      cur += step;
+      if(cur < target){ el.textContent = Math.floor(cur)+suffix; requestAnimationFrame(tick); }
+      else el.textContent = target+suffix;
+    };
+    tick();
+  });
+}
+const statsObs = new IntersectionObserver(e => { if(e[0].isIntersecting) countUp(); }, {threshold:.5});
+const heroStats = document.querySelector('.hero-stats');
+if(heroStats) statsObs.observe(heroStats);
+
+/* ---------- PARTICLES ---------- */
+(function spawnParticles() {
+  const container = document.getElementById('particles');
+  if(!container) return;
+  for(let i=0;i<20;i++){
+    const d = document.createElement('div');
+    d.className = 'drop';
+    d.style.cssText = `left:${Math.random()*100}%;bottom:0;animation-delay:${(Math.random()*7).toFixed(2)}s;animation-duration:${(6+Math.random()*5).toFixed(2)}s;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;opacity:0;`;
+    container.appendChild(d);
+  }
+})();
+
+/* ---------- FILTER PRODUCTS ---------- */
+function filterProds(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.product-card').forEach(c => {
+    c.style.display = (cat==='all' || c.dataset.cat===cat) ? '' : 'none';
+  });
+}
+
+/* ---------- ADD TO CART ---------- */
+function addCart(btn) {
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Dodano!';
+  btn.style.background = 'var(--green-600)';
+  setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2200);
+}
+
+/* ---------- FORM SUBMIT ---------- */
+function submitForm(btn) {
+  btn.textContent = 'Wysyłanie…';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = 'Wysłano! Odezwiemy się wkrótce.';
+    btn.style.background = 'linear-gradient(135deg,#14532d,#166534)';
+    setTimeout(() => {
+      btn.textContent = 'Wyślij zapytanie';
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 4000);
+  }, 1200);
+}
+</script>
+</body>
+</html>
